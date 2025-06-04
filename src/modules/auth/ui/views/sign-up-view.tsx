@@ -10,25 +10,26 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { AuthSocialView } from "./social-view";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "name is required"}),
+  name: z.string().min(1, { message: "name is required" }),
   email: z.string().email(),
   password: z.string().min(1, { message: "Password is required" }),
-  confirmPassword: z.string().min(1, { message: "Password is required"})
+  confirmPassword: z.string().min(1, { message: "Password is required" })
 })
-.refine((data) => data.password ==data.confirmPassword, {
-  path: ["confirmPassword"],
-  message: "Passwords do not match"
-});
+  .refine((data) => data.password == data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match"
+  });
 
 export const SignUpView = () => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,14 +48,15 @@ export const SignUpView = () => {
       {
         email: data.email,
         password: data.password,
-        name: data.name
+        name: data.name,
+        callbackURL: "/"
       },
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
+          router.push("/")
         },
-        onError: ( {error } ) => {
+        onError: ({ error }) => {
           setPending(false);
           setError(error.message || "An error occurred while signing in.");
         }
@@ -78,7 +80,7 @@ export const SignUpView = () => {
                   </p>
                 </div>
                 <div className="grid gap-4">
-                <FormField
+                  <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
@@ -160,29 +162,7 @@ export const SignUpView = () => {
                     >
                       Sign up
                     </Button>
-                    <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-                      <span className="bg-card text-muted-foreground relative z-10 px-2">
-                        Or continue with
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Button
-                        disabled={pending}
-                        variant="outline"
-                        type="button"
-                        className="w-full"
-                      >
-                        Google
-                      </Button>
-                      <Button
-                        disabled={pending}
-                        variant="outline"
-                        type="button"
-                        className="w-full"
-                      >
-                        Github
-                      </Button>
-                    </div>
+                    <AuthSocialView pending={pending} />
                     <div className="text-center text-sm text-muted-foreground">
                       Already have an account?{" "}
                       <Link href="/sign-in" className="underline underline-offset-4">
