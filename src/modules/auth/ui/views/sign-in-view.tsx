@@ -10,16 +10,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { AuthSocialView } from "./social-view";
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, { message: "Password is required" }),
 });
 export const SignInView = () => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -38,13 +37,13 @@ export const SignInView = () => {
       {
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
         },
-        onError: ( {error } ) => {
+        onError: ({ error }) => {
           setPending(false);
           setError(error.message || "An error occurred while signing in.");
         }
@@ -116,29 +115,7 @@ export const SignInView = () => {
                     >
                       Sign in
                     </Button>
-                    <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-                      <span className="bg-card text-muted-foreground relative z-10 px-2">
-                        Or continue with
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Button
-                        disabled={pending}
-                        variant="outline"
-                        type="button"
-                        className="w-full"
-                      >
-                        Google
-                      </Button>
-                      <Button
-                        disabled={pending}
-                        variant="outline"
-                        type="button"
-                        className="w-full"
-                      >
-                        Github
-                      </Button>
-                    </div>
+                    <AuthSocialView pending={pending} />
                     <div className="text-center text-sm text-muted-foreground">
                       Don't have an account?{" "}
                       <Link href="/sign-up" className="underline underline-offset-4">
