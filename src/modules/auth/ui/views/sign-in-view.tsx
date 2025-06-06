@@ -52,11 +52,11 @@ export const SignInView = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <Card className="overflow-hidden p-0">
-        <CardContent className="grid p-0 md:grid-cols-2">
+    <div className="flex flex-col gap-6 items-center justify-center min-h-screen bg-muted">
+      <Card className="max-w-3xl w-full shadow-lg overflow-hidden p-0">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 p-0">
           <Form {...form}>
-            <form className="p=-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">
@@ -127,8 +127,8 @@ export const SignInView = () => {
               </div>
             </form>
           </Form>
-          <div className="bg-radial from-green-500 to-green-800 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
-            <img src="/logo.svg" alt="logo" className="h-[92px] w-[92px]" />
+          <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gap-y-4 items-center justify-center">
+            <img src="/logo.svg" alt="Meet.AI" className="h-[92px] w-[92px]" />
             <p className="text-2xl font-semibold text-white">
               Meet.AI
             </p>
@@ -138,7 +138,6 @@ export const SignInView = () => {
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:">
         By clicking continue, you agree to our <a href="/terms">Terms of Service</a> and <a href="/#">Privacy Policy</a>
       </div>
-
     </div>
 
   )
