@@ -42,7 +42,6 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
-/* src/styles/globals.css */
 body {
   @apply bg-muted;
 }
