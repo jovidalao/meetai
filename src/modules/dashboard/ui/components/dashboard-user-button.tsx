@@ -3,11 +3,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client"
-import { ChevronDownIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
-import router from "next/router";
+import { ChevronUpIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const DashboardUserButton = () => {
   const { data, isPending } = authClient.useSession();
+  const router = useRouter();
 
   const onLogout = () => {
     authClient.signOut({
@@ -30,7 +31,7 @@ export const DashboardUserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="rounded-lg border-border/10 p-3 w-full flex items-center justify-between bg-white/10 overflow-hidden"
+        className="rounded-lg border-border/10 p-3 w-full flex items-center justify-between bg-white/10 overflow-hidden gap-2"
       >
         {data.user.image ? (
           <Avatar>
@@ -48,9 +49,9 @@ export const DashboardUserButton = () => {
             {data.user.email}
           </p>
         </div>
-        <ChevronDownIcon className="size-4" />
+        <ChevronUpIcon className="size-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" side="right" className="w-72">
+      <DropdownMenuContent align="end" side="top" className="w-59">
         <DropdownMenuLabel>
           <div className="flex flex-col gap-1">
             <span className="font-medium truncate">{data.user.name}</span>
@@ -66,7 +67,7 @@ export const DashboardUserButton = () => {
           Logout
           <LogOutIcon className="size-4 ml-auto" />
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator /> */}
       </DropdownMenuContent>
     </DropdownMenu>
   )
