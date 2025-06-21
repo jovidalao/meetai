@@ -52,8 +52,8 @@ export const agents = pgTable("agents", {
 		.primaryKey()
 		.$defaultFn(() => nanoid()),
 	name: text("name")
-		.notNull()
-		.references(() => user.id, { onDelete: "cascade" }),
+		.notNull(),
+	userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
 	instructions: text("instructions").notNull(),
 	createdAt: timestamp("created_at").$defaultFn(() => new Date()),
 	updatedAt: timestamp("updated_at").$defaultFn(() => new Date())
