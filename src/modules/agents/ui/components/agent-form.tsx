@@ -1,3 +1,4 @@
+"use client";
 import { useTRPC } from "@/trpc/client";
 import { AgentGetOne } from "../../types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
